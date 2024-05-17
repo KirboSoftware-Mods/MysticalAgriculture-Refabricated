@@ -63,7 +63,7 @@ repositories {
 		url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
 	}
 
-	maven { url = "https://mvn.devos.one/snapshots/" }
+	maven { url = "https://mvn.devos.one/releases/" }
 
 	maven {
 		name = "vram"
@@ -120,7 +120,7 @@ dependencies {
 	modImplementation("curse.maven:jade-324717:${project.jade_version}")
 
 //	modImplementation("com.alex.cucumber:Cucumber-Refabricated:${project.cucumber_version}")
-	modImplementation(files("libs/Cucumber-Refabricated-1.20.1-2.1.0.jar"))
+	modImplementation(files("libs/Cucumber-Refabricated-1.20.1-2.1.2.jar"))
 
 	implementation "com.electronwill.night-config:core:${project.nightconfig_version}"
 	implementation "com.electronwill.night-config:toml:${project.nightconfig_version}"
@@ -181,10 +181,14 @@ jar {
 // configure the maven publication
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		maven (MavenPublication) {
+			groupId = group
+			artifactId = project.name
+			version = mod_version
 			from components.java
 		}
 	}
+
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
@@ -192,6 +196,11 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+		maven {
+			name 'kirbosoftware'
+			credentials(PasswordCredentials)
+			url 'https://maven.kirbosoftware.com/snapshots'
+		}
 	}
 }
 
